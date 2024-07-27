@@ -86,10 +86,9 @@ const registerHours = async () => {
         id_company: +company.value.code,
         total_hours: roundedHours.value.toString(),
     }
-    const response = await registerHourWorked(data)
-    console.log(response);
 
-    console.log(`Horas trabajadas registradas: ${roundedHours.value}`);
+    await registerHourWorked(data)
+
     timer.value = 0;
     visibleDialog.value = false;
     toast.add({ severity: 'success', summary: 'Successful', detail: ` ${roundedHours.value} Horas registradas con éxito  `, life: 3000 });
