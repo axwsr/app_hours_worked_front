@@ -112,7 +112,6 @@ const formatTime = (seconds) => {
 
 onMounted(async () => {
     companies.value = await getCompanies()
-    console.log(companies.value);
 })
 
 onUnmounted(() => {
