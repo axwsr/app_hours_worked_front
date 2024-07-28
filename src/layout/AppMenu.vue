@@ -44,61 +44,72 @@ const model = ref([
         ]
     },
     {
-        label: 'Pages',
+        label: 'Navegación',
         icon: 'pi pi-fw pi-briefcase',
         to: '/pages',
         items: [
+            // {
+            //     label: 'Landing',
+            //     icon: 'pi pi-fw pi-globe',
+            //     to: '/landing'
+            // },
+            // {
+            //     label: 'Auth',
+            //     icon: 'pi pi-fw pi-user',
+            //     items: [
+            //         {
+            //             label: 'Login',
+            //             icon: 'pi pi-fw pi-sign-in',
+            //             to: '/auth/login'
+            //         },
+            //         {
+            //             label: 'Error',
+            //             icon: 'pi pi-fw pi-times-circle',
+            //             to: '/auth/error'
+            //         },
+            //         {
+            //             label: 'Access Denied',
+            //             icon: 'pi pi-fw pi-lock',
+            //             to: '/auth/access'
+            //         }
+            //     ]
+            // },
+            // {
+            //     label: 'Crud',
+            //     icon: 'pi pi-fw pi-pencil',
+            //     to: '/pages/crud'
+            // },
             {
-                label: 'Landing',
-                icon: 'pi pi-fw pi-globe',
-                to: '/landing'
+                label: 'Registro Rápido',
+                icon: 'pi pi-fw pi-play',
+                to: '/pages/empty'
             },
             {
-                label: 'Auth',
-                icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'Login',
-                        icon: 'pi pi-fw pi-sign-in',
-                        to: '/auth/login'
-                    },
-                    {
-                        label: 'Error',
-                        icon: 'pi pi-fw pi-times-circle',
-                        to: '/auth/error'
-                    },
-                    {
-                        label: 'Access Denied',
-                        icon: 'pi pi-fw pi-lock',
-                        to: '/auth/access'
-                    }
-                ]
-            },
-            {
-                label: 'Crud',
-                icon: 'pi pi-fw pi-pencil',
-                to: '/pages/crud'
-            },
-            {
-                label: 'Hour',
-                icon: 'pi pi-fw pi-id-card',
+                label: 'Registro Detallado',
+                icon: 'pi pi-fw pi-plus',
                 to: '/pages/hour'
             },
             {
-                label: 'Timeline',
-                icon: 'pi pi-fw pi-calendar',
-                to: '/pages/timeline'
+                label: 'Generar Documento',
+                icon: 'pi pi-fw pi-file-pdf',
+                to: '/pages/document'
             },
             {
-                label: 'Not Found',
-                icon: 'pi pi-fw pi-exclamation-circle',
-                to: '/pages/notfound'
-            },
-            {
-                label: 'Empty',
-                icon: 'pi pi-fw pi-circle-off',
-                to: '/pages/empty'
+                label: 'Empresas',
+                icon: 'pi pi-fw pi-building',
+                to: '/pages/company'
             }
+            // {
+            //     label: 'Timeline',
+            //     icon: 'pi pi-fw pi-calendar',
+            //     to: '/pages/timeline'
+            // },
+            // {
+            //     label: 'Not Found',
+            //     icon: 'pi pi-fw pi-exclamation-circle',
+            //     to: '/pages/notfound'
+            // },
+
         ]
     },
     // {
