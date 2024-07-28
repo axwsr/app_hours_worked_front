@@ -59,8 +59,7 @@ const getDayOfWeek = (dateString) => {
 }
 
 const getCurrentTime = () => {
-    const now = DateTime.now().setZone('America/Bogota').toFormat('h:mma');
-    return now.toLowerCase();
+    return DateTime.now().setZone('America/Bogota').toFormat('h:mma');
 }
 
 const calculateRoundedHours = () => {
