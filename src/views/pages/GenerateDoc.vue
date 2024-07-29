@@ -14,8 +14,11 @@ let hoursWorkedArray = ref([])
 let observation = ref(null)
 const visibleTable = ref(false)
 const visibleMsg = ref(false)
+let pay_number_temp = 0
+const loading = ref(false);
 
 const searchDates = async () => {
+    loading.value = true;
     let dateEnd = DateTime.fromJSDate(endDate.value, { zone: 'America/Bogota' });
     formattedEndDate = dateEnd.toFormat('yyyy-MM-dd');
 
@@ -31,10 +34,15 @@ const searchDates = async () => {
         hoursWorkedArray.value = response
         visibleTable.value = true
         visibleMsg.value = false
+
+        pay_number_temp = totalHours.value * 11000
+        pay_number.value = new Intl.NumberFormat('es-CO', { minimumFractionDigits: 0 }).format(pay_number_temp)
     } else {
         visibleTable.value = false
         visibleMsg.value = true
     }
+
+    loading.value = false
 }
 
 const totalHours = computed(() => {
@@ -42,8 +50,7 @@ const totalHours = computed(() => {
 });
 
 const generateDoc = () => {
-    let pay_number_temp = totalHours.value * 11000
-    pay_number.value = new Intl.NumberFormat('es-CO', { minimumFractionDigits: 0 }).format(pay_number_temp)
+    
 
     let pay_word_temp = NumerosALetras(pay_number_temp, { plural: 'pesos', singular: 'peso', centPlural: 'centavos', centSingular: 'centavo' });
     let pay_word = pay_word_temp.replace(/00\/100 M\.N\./, '').trim();
@@ -70,6 +77,7 @@ const resetForm = () => {
     totalHours.value = 0
     startDate.value = null
     endDate.value = null
+    pay_number_temp = 0
 }
 
 const isFormValidSearchDates = computed(() => {
@@ -104,7 +112,7 @@ const isValidObservation = computed(() => {
                     </div>
 
                     <div class="field col-12 md:col-2 md:mt-4">
-                        <Button label="Enviar" :disabled="!isFormValidSearchDates" @click="searchDates"
+                        <Button label="Enviar" :disabled="!isFormValidSearchDates" :loading="loading" @click="searchDates"
                             icon="pi pi-check" />
                     </div>
 
@@ -119,18 +127,18 @@ const isValidObservation = computed(() => {
                         </DataTable>
                     </div>
                     <div class="field col-12">
-                        <label for="address">Address</label>
+                        <label for="address">Observación</label>
                         <Textarea id="address" rows="4" v-model="observation" :disabled="!isValidHoursWorked" />
                     </div>
 
-                    <!-- <div class="col-6">
-                        <span>Total horas: {{ totalHours }} </span>
-                    </div>
-                    <div class="col-6">
-                        <span>Total pago: {{ pay_number }} </span>
+                        <div class="col-6" v-if="visibleTable">
+                            <span>Total horas: <b>{{ totalHours }}</b> </span>
+                        </div>
+                        <div class="col-6" v-if="visibleTable">
+                            <span>Pago: <b>{{ pay_number }}</b> </span>
+                        </div>
 
-                    </div> -->
-                    <div class="field col-12 md:col-2 md:mt-4">
+                    <div class="field col-12 md:col-2 md:mt-4 mt-4">
                         <Button label="Generar" icon="pi pi-save" @click="generateDoc"
                             :disabled="!isValidObservation || !isValidHoursWorked" />
                     </div>
