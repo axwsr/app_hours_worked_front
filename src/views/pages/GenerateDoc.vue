@@ -7,14 +7,15 @@ import { NumerosALetras } from 'numero-a-letras';
 
 let startDate = ref(null)
 let endDate = ref(null)
-let formattedStartDate = ref(null)
-let formattedEndDate = ref(null)
-let hoursWorkedArray = ref(null)
+let formattedStartDate = ""
+let formattedEndDate = ""
+let pay_number = ref(0)
+let hoursWorkedArray = ref([])
 let observation = ref(null)
 const visibleTable = ref(false)
+const visibleMsg = ref(false)
 
 const searchDates = async () => {
-    visibleTable.value = true
     let dateEnd = DateTime.fromJSDate(endDate.value, { zone: 'America/Bogota' });
     formattedEndDate = dateEnd.toFormat('yyyy-MM-dd');
 
@@ -25,31 +26,50 @@ const searchDates = async () => {
         start_date: formattedStartDate,
         end_date: formattedEndDate
     }
-    hoursWorkedArray.value = await getHourWorkedByDate(data)
+    const response = await getHourWorkedByDate(data)
+    if (response.length > 0) {
+        hoursWorkedArray.value = response
+        visibleTable.value = true
+        visibleMsg.value = false
+    } else {
+        visibleTable.value = false
+        visibleMsg.value = true
+    }
 }
 
+const totalHours = computed(() => {
+    return hoursWorkedArray.value.reduce((acc, current) => { return acc + +current.total_hours }, 0);
+});
+
 const generateDoc = () => {
-    const totalHours = computed(() => {
-        return hoursWorkedArray.value.reduce((acc, current) => {
-            return acc + +current.total_hours;
-        }, 0);
-    });
-
-    console.log(totalHours.value);
     let pay_number_temp = totalHours.value * 11000
-    let pay_number = new Intl.NumberFormat('es-CO', { minimumFractionDigits: 0 }).format(pay_number_temp)
-    console.log(pay_number);
+    pay_number.value = new Intl.NumberFormat('es-CO', { minimumFractionDigits: 0 }).format(pay_number_temp)
 
-    let pay_word_temp = NumerosALetras(pay_number_temp, {
-        plural: 'pesos',
-        singular: 'peso',
-        centPlural: 'centavos',
-        centSingular: 'centavo'
-    });
-
+    let pay_word_temp = NumerosALetras(pay_number_temp, { plural: 'pesos', singular: 'peso', centPlural: 'centavos', centSingular: 'centavo' });
     let pay_word = pay_word_temp.replace(/00\/100 M\.N\./, '').trim();
-    console.log(pay_word);
 
+    let data = {
+        total_hrs: totalHours.value.toString(),
+        pay_number: pay_number.value,
+        pay_word: pay_word,
+        observation: observation.value,
+        start_date: formattedStartDate,
+        end_date: formattedEndDate
+    }
+
+    generatePDF(data)
+    resetForm()
+}
+
+const resetForm = () => {
+    hoursWorkedArray.value = []
+    formattedStartDate = ""
+    formattedEndDate = ""
+    observation.value = ""
+    pay_number.value = ""
+    totalHours.value = 0
+    startDate.value = null
+    endDate.value = null
 }
 
 const isFormValidSearchDates = computed(() => {
@@ -88,8 +108,8 @@ const isValidObservation = computed(() => {
                             icon="pi pi-check" />
                     </div>
 
+                    <h4 class="col-12 text-center" v-if="visibleMsg">No hay horas registradas.</h4>
                     <div v-if="visibleTable" class="field col-12">
-
                         <DataTable :value="hoursWorkedArray" size="small" tableStyle="min-width: 10rem">
                             <Column field="date_worked" header="Fecha"></Column>
                             <Column field="name_company" header="Empresa"></Column>
@@ -102,9 +122,17 @@ const isValidObservation = computed(() => {
                         <label for="address">Address</label>
                         <Textarea id="address" rows="4" v-model="observation" :disabled="!isValidHoursWorked" />
                     </div>
+
+                    <!-- <div class="col-6">
+                        <span>Total horas: {{ totalHours }} </span>
+                    </div>
+                    <div class="col-6">
+                        <span>Total pago: {{ pay_number }} </span>
+
+                    </div> -->
                     <div class="field col-12 md:col-2 md:mt-4">
                         <Button label="Generar" icon="pi pi-save" @click="generateDoc"
-                            :disabled="!isValidObservation" />
+                            :disabled="!isValidObservation || !isValidHoursWorked" />
                     </div>
                 </div>
             </div>
