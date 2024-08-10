@@ -22,8 +22,8 @@ const startTimer = () => {
     start_time = getCurrentTime()
     isWorking.value = true;
     interval.value = setInterval(() => {
-        // timer.value += 1;
-        timer.value += timeFactor; // Incrementa el cronómetro por el factor de tiempo
+        timer.value += 1;
+        //timer.value += timeFactor; // Incrementa el cronómetro por el factor de tiempo
     }, 1000);
 };
 
