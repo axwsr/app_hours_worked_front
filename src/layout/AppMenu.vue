@@ -98,6 +98,11 @@ const model = ref([
                 label: 'Empresas',
                 icon: 'pi pi-fw pi-building',
                 to: '/pages/company'
+            },
+            {
+                label: 'Información Personal',
+                icon: 'pi pi-fw pi-user-edit',
+                to: '/pages/info_person'
             }
             // {
             //     label: 'Timeline',
