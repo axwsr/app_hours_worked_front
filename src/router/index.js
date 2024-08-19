@@ -142,6 +142,11 @@ const router = createRouter({
                     component: () => import('@/views/pages/Hour.vue')
                 },
                 {
+                    path: '/pages/registered_hours',
+                    name: 'registered_hours',
+                    component: () => import('@/views/pages/RegisteredHours.vue')
+                },
+                {
                     path: '/pages/company',
                     name: 'company',
                     component: () => import('@/views/pages/Company.vue')

@@ -89,6 +89,11 @@ const model = ref([
                 icon: 'pi pi-fw pi-plus',
                 to: '/pages/hour'
             },
+            // {
+            //     label: 'Horas registradas',
+            //     icon: 'pi pi-fw pi-list',
+            //     to: '/pages/registered_hours'
+            // },
             {
                 label: 'Generar Documento',
                 icon: 'pi pi-fw pi-file-pdf',

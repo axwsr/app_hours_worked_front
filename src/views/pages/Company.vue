@@ -116,9 +116,9 @@ const initFilters = () => {
                     </template>
 
 
-                    <Column field="name" header="Name" :sortable="true" headerStyle="width:40%; min-width:10rem;">
+                    <Column field="name" header="Name" :sortable="false" headerStyle="width:40%; min-width:10rem;">
                         <template #body="slotProps">
-                            <span class="p-column-title">Name</span>
+                            <span class="p-column-title">Nombre</span>
                             {{ slotProps.data.name_company }}
                         </template>
                     </Column>
