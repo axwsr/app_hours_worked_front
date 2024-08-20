@@ -100,19 +100,28 @@ const updateHour = async () => {
         "total_hours": editTotalHours.value.toString()
     }
 
-    await updateHourWorked(hour.value.id_hour_worked, data)
-    await searchDates()
-    editDialog.value = false
-    toast.add({ severity: 'success', summary: 'Successful', detail: `Hora editada con éxito`, life: 3000 });
+    try {
+        await updateHourWorked(hour.value.id_hour_worked, data)
+        toast.add({ severity: 'success', summary: 'Successful', detail: `Hora editada con éxito`, life: 3000 });
+    } catch (error) {
+        await searchDates()
+        toast.add({ severity: 'warning', summary: 'Error', detail: `Error al editar`, life: 3000 });
+    }
 
+    editDialog.value = false
 }
 
 const deleteHour = async () => {
-    await deleteHourWorked(hour.value.id_hour_worked)
+    try {
+        await deleteHourWorked(hour.value.id_hour_worked)
+        toast.add({ severity: 'success', summary: 'Successful', detail: `Hora eliminada con éxito`, life: 3000 });
+    } catch (error) {
+        toast.add({ severity: 'warning', summary: 'Error', detail: `Error al borrar el registro.`, life: 3000 });
+    }
+
     deleteDialog.value = false
     startDate.value = null
     visibleTable.value = false
-    toast.add({ severity: 'success', summary: 'Successful', detail: `Hora eliminada con éxito`, life: 3000 });
 
 }
 
