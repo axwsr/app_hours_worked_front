@@ -68,7 +68,7 @@ const deleteProduct = async () => {
     companies.value = companies.value.filter((val) => val.id_company !== company.value.id_company);
     deleteProductDialog.value = false;
     company.value = {};
-    toast.add({ severity: 'success', summary: 'Successful', detail: 'company Deleted', life: 3000 });
+    toast.add({ severity: 'success', summary: 'Successful', detail: 'Empresa borrada', life: 3000 });
 };
 
 const findIndexById = (id) => {
@@ -150,7 +150,7 @@ const initFilters = () => {
                     </template>
                 </Dialog>
 
-                <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm"
+                <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirmar"
                     :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />

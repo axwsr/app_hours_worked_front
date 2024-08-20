@@ -11,3 +11,7 @@ export const getHourWorkedByDate = async (data) => {
 export const updateHourWorked = async (id_hour,data) => {
     return (await axios.put(`${BASE_URL}/hour_work/hours_worked/${id_hour}`,data)).data;
 }
+
+export const deleteHourWorked = async (id_hour) => {
+    return (await axios.delete(`${BASE_URL}/hour_work/delete_hour_work/${id_hour}`)).data;
+}

@@ -4,9 +4,11 @@ import { getCompanies } from '../../service/CompanyService';
 import { DateTime } from 'luxon';
 import { useToast } from 'primevue/usetoast';
 import { registerHourWorked } from '../../service/HourService';
-const toast = useToast();
 
-let dateWork = ref(null);
+
+const currentDate = DateTime.now().toJSDate();
+const toast = useToast();
+let dateWork = ref(currentDate);
 let dayWork = ref(null)
 let endTime = ref(null)
 let startTime = ref(null)
@@ -52,6 +54,8 @@ const getDayOfWeek = () => {
 
 };
 
+getDayOfWeek()
+
 const resetForm = () => {
     dateWork.value = null;
     dayWork.value = null;
@@ -61,11 +65,32 @@ const resetForm = () => {
     company.value = null;
 };
 
+const calculateRoundedHours = () => {
+    if (startTime.value && endTime.value) {
+        let end = DateTime.fromJSDate(endTime.value, { zone: 'America/Bogota' })
+        let start = DateTime.fromJSDate(startTime.value, { zone: 'America/Bogota' })
+
+        const diff = end.diff(start, ['hours', 'minutes']).toObject();
+        const roundedHours = Math.floor(diff.hours);
+        const roundedMinutes = Math.round(diff.minutes);
+
+        if (roundedMinutes > 20 && roundedMinutes <= 44) {
+            totalHours.value = roundedHours + 0.5;
+        } else if (roundedMinutes > 44 && roundedMinutes <= 60) {
+            totalHours.value = roundedHours + 1;
+        } else {
+            totalHours.value = roundedHours;
+        }
+
+    }
+}
+
 onMounted(async () => {
     companies.value = await getCompanies()
 })
 
 watch(dateWork, getDayOfWeek);
+watch(endTime, calculateRoundedHours)
 
 const isFormValid = computed(() => {
     return dateWork.value && dayWork.value && endTime.value && startTime.value && totalHours.value && company.value;
