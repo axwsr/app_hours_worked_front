@@ -8,7 +8,7 @@ export const generatePDF = async (data) => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'horas__trabajadas_ROMAN.pdf'); // Nombre del archivo que se descargará
+    link.setAttribute('download', 'horas_trabajadas_ROMAN.docx'); // Nombre del archivo que se descargará
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
